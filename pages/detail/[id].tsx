@@ -1,3 +1,8 @@
+import React from 'react'
+import { NextPage } from 'next'
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import Styles from './styles.module.scss'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
@@ -5,14 +10,12 @@ import { fetchCast, fetchEpisodes, fetchMovie, fetchRecomendations, fetchRecomen
 import Logo from '../../src/assets/images/Logo.png'
 import Image from 'next/image'
 import myLoader from '../../src/helpers/imageLoader'
-import Styles from './styles.module.scss'
 import star from '../../src/assets/icons/Vector.svg'
 import btn from '../../src/assets/icons/btn.svg'
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
 import Slider from "react-slick";
+import wrapper from '../../store'
 
-const DetailMovie = () => {
+const DetailMovie: NextPage = () => {
     const dispatch = useDispatch()
     const router = useRouter()
     const { id, type } = router.query
@@ -80,12 +83,12 @@ const DetailMovie = () => {
             dispatch(fetchRecomendationsTVShow(id))
         }
 
-        dispatch(fetchGenres())
+        if (id) dispatch(fetchGenres())
 
     }, [id])
 
     useEffect(() => {
-        if (movie && movie.backdrop_path) {
+        if (movie && movie?.vote_average) {
             let arr = []
             let rate = 1
             if (movie.vote_average > 8.5) rate = 5
@@ -103,7 +106,7 @@ const DetailMovie = () => {
     }, [movie])
 
     useEffect(() => {
-        if (tv && tv.backdrop_path) {
+        if (tv && tv?.vote_average) {
             let arr = []
             let rate = 1
             if (tv.vote_average > 8.5) rate = 5
@@ -163,17 +166,19 @@ const DetailMovie = () => {
                     <div>
                         <div className="mt-4 md:flex gap-4">
                             <div className={`${Styles.bgLinear} md:w-1/4 w-full h-full block relative`}>
-                                <Image
-                                    loader={myLoader}
-                                    src={movie.poster_path}
-                                    width={46}
-                                    height={74}
-                                    className='object-cover object-center'
-                                    layout="responsive"
-                                />
+                                {movie?.poster_path && (
+                                    <Image
+                                        loader={myLoader}
+                                        src={movie.poster_path}
+                                        width={46}
+                                        height={74}
+                                        className='object-cover object-center'
+                                        layout="responsive"
+                                    />
+                                )}
                                 <div className="absolute z-50 w-full bottom-2 left-0 px-2">
                                     <div className='w-24 text-center py-1 rounded-tr-md rounded-bl-md' style={{ backgroundColor: "rgba(15, 239, 253, 0.1)" }}>
-                                        <p className={`${Styles.aqua} text-xs`}>{movie?.genres ? movie?.genres[0]?.name : ''}</p>
+                                        <p className={`${Styles.aqua} text-xs`}>{movie?.genres && movie?.genres?.length > 0 ? movie?.genres[0]?.name : ''}</p>
                                     </div>
                                     <div className="flex gap-2">
                                         {rates?.map((item: any) => (
@@ -184,7 +189,7 @@ const DetailMovie = () => {
                                                 height={12.67}
                                             />
                                         ))}
-                                        <p className="text-gray-300">Release Year: {movie.release_date.split('-')[0]}</p>
+                                        <p className="text-gray-300">Release Year: {movie?.release_date ? movie?.release_date.split('-')[0] : ''}</p>
                                     </div>
                                     <div className="mt-2">
                                         <p className="text-white font-bold">{movie?.title}</p>
@@ -196,7 +201,7 @@ const DetailMovie = () => {
                                     <div className='md:w-3/4'>
                                         <p className="text-white font-bold md:text-2xl">Synopsis</p>
                                         <div className="mt-4 p-4" style={{ backgroundColor: '#242424' }}>
-                                            <p className='text-gray-300'>{movie.overview}</p>
+                                            <p className='text-gray-300'>{movie?.overview}</p>
                                         </div>
                                     </div>
                                     <div className='md:w-1/4'>
@@ -215,14 +220,16 @@ const DetailMovie = () => {
                                     <p className="text-white font-bold md:text-2xl">Episodes</p>
                                     <div className="flex gap-4 mt-4">
                                         <div className='relative w-1/4 block w-full h-full'>
-                                            <Image
-                                                loader={myLoader}
-                                                src={movie.backdrop_path}
-                                                width={200}
-                                                height={100}
-                                                className='object-cover object-center'
-                                                layout="responsive"
-                                            />
+                                            {movie?.backdrop_path && (
+                                                <Image
+                                                    loader={myLoader}
+                                                    src={movie.backdrop_path}
+                                                    width={200}
+                                                    height={100}
+                                                    className='object-cover object-center'
+                                                    layout="responsive"
+                                                />
+                                            )}
                                             <div className="absolute left-0 top-0 w-full h-full flex justify-center items-center cursor-pointer">
                                                 <Image
                                                     src={btn}
@@ -248,7 +255,7 @@ const DetailMovie = () => {
                     <div>
                         <div className="mt-4 md:flex gap-4">
                             <div className={`${Styles.bgLinear} md:w-1/4 w-full h-full block relative`}>
-                                {tv.poster_path && (
+                                {tv?.poster_path && (
                                     <Image
                                         loader={myLoader}
                                         src={tv.poster_path}
@@ -271,7 +278,7 @@ const DetailMovie = () => {
                                                 height={12.67}
                                             />
                                         ))}
-                                        <p className="text-gray-300">Release Year: {tv?.first_air_date?.split('-')[0]}</p>
+                                        <p className="text-gray-300">Release Year: {tv?.first_air_date ? tv.first_air_date.split('-')[0] : ''}</p>
                                     </div>
                                     <div className="mt-2">
                                         <p className="text-white font-bold">{tv?.name}</p>
@@ -331,7 +338,7 @@ const DetailMovie = () => {
                                                                 layout="responsive"
                                                             />}
 
-                                                            {tv?.backdrop_path && <Image
+                                                            {tv?.backdrop_path && !episodes?.poster_path && <Image
                                                                 loader={myLoader}
                                                                 src={tv.backdrop_path}
                                                                 width={200}
@@ -448,5 +455,22 @@ const DetailMovie = () => {
         </div >
     )
 }
+
+DetailMovie.getInitialProps = wrapper.getInitialPageProps(store => ({ pathname, query }) => {
+    const { dispatch } = store
+    if (query?.id && query?.type == "movie") {
+        dispatch(fetchMovie(query?.id))
+        dispatch(fetchRecomendations(query?.id))
+    }
+
+    if (query?.id && query?.type) dispatch(fetchCast(query?.id, query?.type))
+
+    if (query?.id && query?.type == "tv") {
+        dispatch(fetchTv(query?.id))
+        dispatch(fetchRecomendationsTVShow(query?.id))
+    }
+
+    dispatch(fetchGenres())
+})
 
 export default DetailMovie

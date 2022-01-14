@@ -1,10 +1,10 @@
 import Styles from './Landing.module.scss'
 import React, { useEffect, useMemo, useContext, useState, useRef } from 'react'
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 import Head from 'next/head'
 import Image from 'next/image'
 import Logo from '../src/assets/images/Logo.png'
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
 import Slider from "react-slick";
 import bg from '../src/assets/images/card-img.jpg'
 import arrowNext from '../src/assets/icons/chevront-r.svg'
