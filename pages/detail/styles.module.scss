@@ -1,0 +1,79 @@
+.bgLinear::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    background-image: linear-gradient(to top, rgba(29, 29, 29, 0.8), rgba(29, 29, 29, 0));
+  }
+  
+  .aqua {
+    color: #0FEFFD;
+  }
+
+  .hoverOpacity {
+    animation: opacityHover 1s;
+    opacity: 1;
+  }
+  
+  .hoverOpacityToNull {
+    animation: opacityHoverToNull 1s;
+    opacity: 0;
+  }
+  
+  .tramformY {
+    animation: tramformY .7s;
+    transform: translateY(-5px);
+  }
+  
+  .tramformYToNull {
+    animation: tramformYToNull .7s;
+    transform: translateY(20px);
+  }
+  
+  @keyframes tramformY {
+    from {
+      transform: translateY(20px);
+    }
+    to {
+      transform: translateY(-5px);
+    }
+  }
+  
+  @keyframes tramformYToNull {
+    from {
+      transform: translateY(-5px);
+    }
+    to {
+      transform: translateY(20px);
+    }
+  }
+  
+  @keyframes opacityHover {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes opacityHoverToNull {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  
+  .image {
+    transition: all .2s ease-in-out;
+  }
+  
+  .image:hover {
+    transform: scale(1.1);
+  }
+  
