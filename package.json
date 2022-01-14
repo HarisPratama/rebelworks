@@ -13,6 +13,7 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@types/react-big-calendar": "^0.33.1",
     "@types/react-lottie": "^1.2.5",
+    "@types/react-slick": "^0.23.8",
     "apexcharts": "^3.27.3",
     "axios": "^0.21.1",
     "date-fns": "^2.22.1",
